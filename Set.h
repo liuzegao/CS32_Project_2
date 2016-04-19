@@ -11,7 +11,7 @@
 #include <iostream>
 #include <String>
 
-typedef unsigned long ItemType;
+typedef std::string ItemType;
 
 class Set
 {
@@ -67,10 +67,10 @@ private:
         Node* prev;
         Node* next;
         //Intialize node with a input and set m_Setcheck as false
-        Node(ItemType Input) : data(Input) {}
+        //Node(ItemType Input) : data(Input) {}
     
         
-        //exam: Can I do this?
+        
     };
     
     // instantiation
@@ -78,14 +78,13 @@ private:
     
     // Find was made private because we want to return Nodes, which are private
     // plus, we will only be using it as a helper for implementing our public functions
-    Node* find(ItemType data) {
-        
-        //exam: Can we add implementation in praivate data member?????
-        //exam: delete this comment since they are from TA
+    Node* find(ItemType data)
+    {
         // Since we have a dummy ndoe, this iteration strategy works for any list case
         // (empty, single element, etc...)
     
-        for (Node* n = head->next; n != head; n = n->next) {
+        for (Node* n = head->next; n != head; n = n->next)
+        {
             if (n->data == data)
                 return n;
         }

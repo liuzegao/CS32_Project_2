@@ -16,7 +16,23 @@ void unite(const Set& s1, const Set& s2, Set& result)
     Set Newresult;
     result.swap(Newresult);
     
-    //exam:Is it ok not to initialize it?
+    if(s1.empty())
+        if(s2.empty())
+        return;
+    
+    if(s1.empty())
+        if(!s2.empty())
+        {
+            result = s2;
+            return;
+        }
+
+    if(s2.empty())
+    {
+        result = s1;
+        return;
+    }
+    
     ItemType temp;
     
     //Add s1 into result
@@ -32,18 +48,40 @@ void unite(const Set& s1, const Set& s2, Set& result)
         s2.get(i,temp);
         result.insert(temp);
     }
+    return;
+    
 }
 
 //exam: check if it works with 0 set
 void subtract(const Set& s1, const Set& s2, Set& result)
 {
+    
     //Initialize result with a new Set
     Set Newresult;
     result.swap(Newresult);
     
+    //If s1 is empty, result must be a 0 set. just return then
+    if(s1.empty())
+        return;
+    
+    //If s2 is empty, result must be s1
+    //exam:Can I do this operator =?
+    if(s2.empty())
+        if(s1.empty())
+            return;
+    
+    if(s2.empty())
+        if(!s1.empty())
+        {
+            result = s1;
+            return;
+        }
+    
     ItemType temp1;
     ItemType temp2;
     int number=0;
+    
+    
     
     for(int i =0 ; i < s1.size(); i++)
     { number =0;
@@ -66,7 +104,8 @@ void subtract(const Set& s1, const Set& s2, Set& result)
             
         }
     }
-            
+    
+    return;
             
 }
 
@@ -74,9 +113,7 @@ void subtract(const Set& s1, const Set& s2, Set& result)
 Set::Set()
 {
     //Creat a dummy node as the head
-    
-    //exam: ????? How to initialize the value of head????? can i just add a default constructor for Node and initialize it with Node(), what will be the value of data then?
-    head = new Node(0);
+    head = new Node;
     head->next = head;
     head->prev = head;
     
@@ -91,10 +128,13 @@ Set::~Set()
     if( n == head)
         delete head;
     else
-    {for (n= head->next; n != head; n = n->next)
     {
+        Node* temp = nullptr;
+        for (n= head->next; n != head; n = temp->next)
+        {
+            temp = n;
             delete n;
-    }
+        }
     //Delete head
     delete head;
     }
@@ -160,9 +200,9 @@ bool Set::insert(const ItemType& data)
         if (n->data == data)
             return false;
     }
-    
-    //exam: Is it ok to just call it n?
-    Node* n = new Node(data);
+   
+    Node* n = new Node;
+    n->data = data;
     
     // attach the node to the list
     n->prev = head->prev;
